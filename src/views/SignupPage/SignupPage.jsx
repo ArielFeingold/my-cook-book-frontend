@@ -210,5 +210,22 @@ class SignupPage extends React.Component {
   }
 }
 
-export default withStyles(signupPageStyle)(SignupPage);
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    errors: state.auth.signupError,
+    isAuthenticated: state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath,
+    isNewSignup: state.auth.isNewSignup
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSignup: (email, password, username) => dispatch(actions.signup(email, password, username))
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(signupPageStyle)(SignupPage));
 
