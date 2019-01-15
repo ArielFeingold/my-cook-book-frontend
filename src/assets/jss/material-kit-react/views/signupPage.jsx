@@ -86,6 +86,9 @@ const signupPageStyle = {
   },
   inputIconsColor: {
     color: "#495057"
+  },
+  textField: {
+    marginBottom: "1em"
   }
 };
 

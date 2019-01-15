@@ -7,10 +7,13 @@ import { Redirect } from 'react-router-dom';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from '@material-ui/core/Typography';
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
+import TextField from '@material-ui/core/TextField';
+
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
+import Https from "@material-ui/icons/Https";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+
 // core components
 import Header from "components/Header/Header.jsx";
 import HeaderLinksUnauth from "components/Header/HeaderLinksUnauth.jsx";
@@ -21,7 +24,6 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
 import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
 import signupPageStyle from "assets/jss/material-kit-react/views/signupPage.jsx";
@@ -29,17 +31,15 @@ import signupPageStyle from "assets/jss/material-kit-react/views/signupPage.jsx"
 import image from "assets/img/bg7.jpg";
 
 class SignupPage extends React.Component {
-  constructor(props) {
-    super(props);
-    // we use this to make the card to appear after the page has been rendered
-    this.state = {
-      cardAnimaton: "cardHidden",
-      email: '',
-      password: '',
-      username: ''
-    };
-  }
-  componentDidMount() {
+
+  state = {
+    cardAnimaton: "cardHidden",
+    email: '',
+    password: '',
+    username: ''
+  };
+
+  componentDidMount = () => {
     setTimeout(
       function() {
         this.setState({ cardAnimaton: "" });
@@ -48,19 +48,18 @@ class SignupPage extends React.Component {
     );
   }
 
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
+   handleChange = (event) => {
+     this.setState({
+       [event.target.name]: event.target.value
+     })
+   };
 
   submitHandler = (event) => {
     event.preventDefault();
-    event.target.className += ' was-validated';
-    this.props.onLogin(this.state.email, this.state.password);
+    this.props.onSignup(this.state.email, this.state.password, this.state.username);
   }
 
-  render() {
+  render(){
     const { classes, ...rest } = this.props;
 
     let usernameError = '';
@@ -138,64 +137,73 @@ class SignupPage extends React.Component {
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8}>
                 <Card className={classes[this.state.cardAnimaton]}>
-                  <form className={classes.form}>
-                    <CardHeader style={{title:"2em"}} color="primary" className={classes.cardHeader}>
+                  <CardHeader color="primary" className={classes.cardHeader}>
                       <h4>Signup</h4>
-                    </CardHeader>
+                  </CardHeader>
+                  <form className={classes.form} onSubmit={this.submitHandler}>
                     <CardBody>
-                      <CustomInput
-                        labelText="Username"
-                        id="first"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                          endAdornment: (
+                  <TextField
+                    className={classes.textField}
+                    variant="outlined"
+                    type= "text"
+                    placeholder="Choose Username"
+                    label="Username"
+                    name="username"
+                    fullWidth
+                    value={this.state.username}
+                    onChange={this.handleChange}
+                    InputProps={{
+                      endAdornment: (
                             <InputAdornment position="end">
-                              <People className={classes.inputIconsColor} />
+                              <AccountCircle className = {
+                                classes.inputIconsColor
+                              }
+                              />
                             </InputAdornment>
-                          )
-                        }}
-                      />
+                      ),
+                    }}
+                  />
                   <Typography color='error' variant="caption" gutterBottom>{usernameError}</Typography>
-                      <CustomInput
-                        labelText="Email Address"
-                        id="email"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "email",
-                          endAdornment: (
+                  <TextField
+                    className={classes.textField}
+                    variant="outlined"
+                    type= "email"
+                    label="Email"
+                    placeholder = "Enter Valid Email Adress"
+                    name="email"
+                    fullWidth
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    InputProps={{
+                      endAdornment: (
                             <InputAdornment position="end">
                               <Email className={classes.inputIconsColor} />
                             </InputAdornment>
-                          )
-                        }}
-                      />
+                      ),
+                    }}
+                  />
                       <Typography color='error' variant="caption" gutterBottom>{emailError}</Typography>
-                      <CustomInput
-                        labelText="Password (8 Characters Minimum)"
-                        id="pass"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "password",
-                          endAdornment: (
+                    <TextField
+                    variant="outlined"
+                    type= "password"
+                    label="Password"
+                    placeholder = "8 characters minimum"
+                    name="password"
+                    fullWidth
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    InputProps={{
+                      endAdornment: (
                             <InputAdornment position="end">
-                              <Icon className={classes.inputIconsColor}>
-                                lock_outline
-                              </Icon>
+                              <Https className={classes.inputIconsColor} />
                             </InputAdornment>
-                          )
-                        }}
-                      />
+                      ),
+                    }}
+                  />
                       <Typography color='error' variant="caption" gutterBottom>{passwordError}</Typography>
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg">
+                      <Button simple color="primary" size="lg" type="submit">
                         Get started
                       </Button>
                     </CardFooter>

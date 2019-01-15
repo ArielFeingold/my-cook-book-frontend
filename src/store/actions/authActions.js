@@ -30,10 +30,14 @@ export const signup = (email, password, username) => {
           user: {
             email: email,
             password: password,
-            username: username
+            name: username
           }
       };
-      let url = 'http://localhost:3001/users';
+      const header = {
+          'Content-Type': "application/json",
+          
+      }
+      let url = 'https://pot-luck-api.herokuapp.com/api/v1/users';
       axios.post(url, authData )
       .then(response => {dispatch(signupSuccess(response.user))})
       .catch(error => {dispatch(signupFail(error.response.data.error))})
@@ -71,7 +75,7 @@ export const login = (email, password) => {
             password: password
           }
       };
-      let url = 'http://localhost:3001/user_token';
+      let url = 'https://pot-luck-api.herokuapp.com/api/v1/user_token';
       axios.post(url, authData )
       .then(response => {
         const decodedJWT = jwt_decode(response.data.jwt);
