@@ -78,7 +78,7 @@ class SignupPage extends React.Component {
             <SnackbarContent
               message={
                 <span>
-                  <b>USER NOT FOUND:</b> please enter a valid password-email combination
+                  <b> Email Already In Use </b> please choose a different email.
                 </span>
               }
             close
